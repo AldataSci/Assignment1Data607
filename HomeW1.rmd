@@ -1,0 +1,95 @@
+---
+title: "R Homework 1"
+author: Al Haque
+output: html_document
+---
+# Overview:
+This data set contains the list of polls about guns.This contains data about gun topics and what stances do Republican and Democrats support. This poll quiz was taken after the school shooting in Parkland Florida.
+
+# Question:
+My Question of interest is to see which issues do both Republicans and Democrats strongly support. 
+
+```{r}
+
+## Read the csv file directly from Github
+
+gundata <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/poll-quiz-guns/guns-polls.csv" ,header=TRUE ,sep=",")
+gdata <- as.data.frame(gundata)
+
+## Look at the head of the data and see what it contains: 
+head(gdata)
+
+```
+
+## Analyze what issues do Republicans strongly support? 
+
+```{r cars}
+myvar = c("Question","Population","Republican.Support","Democratic.Support")
+Rtable <- gdata[myvar]
+
+## See which issues Republicans are interested in...
+## See which issues do Republicans support over 75% 
+R <- subset(Rtable,Republican.Support > "75")
+R
+
+```
+
+
+## Data Overview:
+According to the data it seems they are fully support background check,mental health with gun ownership and allowing teachers to arm themselves very interesting... 
+
+
+## Boxplot of the Republicans: 
+
+```{r}
+## Next is the plot.. 
+library(ggplot2)
+ggplot(R) +
+geom_boxplot(mapping = aes(x=Question,y=Republican.Support)) + 
+labs(title= "Gun Issues Republican mostly Support",x="Question asked", y = "Republican Support")
+
+```
+
+
+
+
+# Interpreting the Boxplot:
+
+According to the data we can see there is a lot of variability for background-checks with the median being around 88% it seems this category is slightly skewed around 80% percent with the min being 82% and the max 90%.There appears to be a strong consensus among Republicans for the people that are mentally ill should not be allowed to own a gun with the median being 87%. It seems that among Republicans the key issues they actually care about are age for gun-ownership,whether the mentally ill should be allowed to own guns,stronger background checks and whether teachers should be allowed to arm themselves. 
+
+
+# Analyzing what issues do Democrats strongly support?
+
+```{r}
+
+## Here I edited the issues into shorter names since the names
+## couldn't fit into the graphs
+D <- subset(Rtable,Democratic.Support>"75")
+D[D == "background-checks"] <-"bg-chks"
+D[D == "ban-high-capacity-magazines"] <-"mag-ban"
+D[D == "stricter-gun-laws"] <- "stricter_laws"
+D[D == "ban-assault-weapons"]<-"assault_ban"
+D[D == "mental-health-own-gun"] <-"mental_heal"
+
+```
+
+
+## Boxplots of the Democrats
+
+```{r}
+##Box plot of the issues Democrats want solved 
+library(ggplot2)
+ggplot(D) +
+  geom_boxplot(mapping=aes(x=Question,y=Democratic.Support)) +
+  labs(title ="Gun Issues that Democrats strongly support",x="Issues that Democrats support", y="Democrats Support")
+```
+
+
+# Interpreting the Boxplot for Democrats:
+
+The democrats appear to strongly support a lot of issues with the highest median being background checks. It also appears most Democrats want the age of gun ownership to be increased to 21 where the min is around 83% and the max is around 94%, the data here appears to be skewed towards the 90% suggesting very strong support for this issue.A note of interest is the outlier on stricter gun laws with it's value being around 76% or 77%.
+
+## Conclusion: 
+
+It seems the Democrats are passionate on reforming gun laws compared to their Republican counterparts. The democrats strongly want to reform a lot of guns law that include banning high-capacity magazines, and banning assault weapons which many Republicans do not support. There is also not many support among Republicans for raising the age for gun ownership. Though there is a common agreement for stronger background checks and assessing the mental health of people before allowing them to own a gun. All in all the data seems pretty consistent with today's political climate regarding gun reforms, where democrats are more leaning towards stronger gun reform than republicans. 
+
